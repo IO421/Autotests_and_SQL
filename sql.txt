@@ -1,0 +1,38 @@
+scooter_rent=# SELECT
+scooter_rent-#     c.login AS "Логин курьера",
+scooter_rent-#     COUNT(o.id) AS "Количество заказов в доставке"
+scooter_rent-# FROM
+scooter_rent-#     "Couriers" c
+scooter_rent-# LEFT JOIN
+scooter_rent-#     "Orders" o ON c.id = o."courierId" AND o."inDelivery" = TRUE
+scooter_rent-# GROUP BY
+scooter_rent-#     c.login
+scooter_rent-# ORDER BY
+scooter_rent-#     "Количество заказов в доставке" DESC;
+ Логин курьера | Количество заказов в доставке
+---------------+-------------------------------
+ peter         |                             4
+(1 row)
+
+scooter_rent=# SELECT
+scooter_rent-#     "track",
+scooter_rent-#     CASE
+scooter_rent-#         WHEN "finished" = TRUE THEN 2
+scooter_rent-#         WHEN "cancelled" = TRUE THEN -1
+scooter_rent-#         WHEN "inDelivery" = TRUE THEN 1
+scooter_rent-#         ELSE 0
+scooter_rent-#     END AS "Статус"
+scooter_rent-# FROM
+scooter_rent-#     "Orders"
+scooter_rent-# ORDER BY
+scooter_rent-#     "track";
+ track  | Статус
+--------+--------
+ 218573 |      1
+ 218573 |      1
+ 229589 |      0
+ 290137 |      0
+ 898225 |      1
+ 898225 |      2
+ 947295 |      0
+(7 rows)
